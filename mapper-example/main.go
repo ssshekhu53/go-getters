@@ -2,8 +2,17 @@ package main
 
 import (
 	"fmt"
-	"go-getters/mapper-example/mapper"
+
+	"golang.org/x/exp/constraints"
 )
+
+func Mapper[T constraints.Integer | constraints.Float](arr []T, f func(ele T) T) []T {
+	for i := range arr {
+		arr[i] = f(arr[i])
+	}
+
+	return arr
+}
 
 func main() {
 	intArr := make([]int, 0)
@@ -17,7 +26,7 @@ func main() {
 		fmt.Printf("intArr[%d]: %d\n", i, intArr[i])
 	}
 
-	mapper.Mapper(intArr, func(ele int) int {
+	Mapper(intArr, func(ele int) int {
 		return ele * 2
 	})
 
